@@ -22,7 +22,11 @@
   <div id="output"></div>
 
   <script>
+    console.log("Script is running!");
+
     document.getElementById('generate').addEventListener('click', () => {
+      alert("Generate button clicked");
+
       const fileElem = document.getElementById('fileInput');
       const ref = document.getElementById('refInput').value.trim();
       if (!fileElem.files.length) return alert('Please choose an Excel file first.');
@@ -38,10 +42,11 @@
         try {
           wb = XLSX.read(data, { type: 'array', password: pwd });
         } catch (err) {
-          return alert("Could not open workbook. \n" +
-                       (pwd
-                         ? "Wrong password or unsupported encryption."
-                         : "File seems encrypted. Please provide the correct password."));
+          console.error("Decryption failed:", err);
+          return alert("Could not open workbook.\n" +
+            (pwd
+              ? "Wrong password or unsupported encryption."
+              : "File seems encrypted. Please provide the correct password."));
         }
 
         const sheet = wb.Sheets[wb.SheetNames[0]];
